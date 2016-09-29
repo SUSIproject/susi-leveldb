@@ -9,10 +9,14 @@ before_install:
 script:
   - docker run -v $(pwd):/src trusch/susi-builder:stable
   - cp build/*.deb ./susi-leveldb-${TRAVIS_BRANCH}-linux-amd64.deb
+  - docker run -v $(pwd):/opt/rootfs/src trusch/susi-arm-builder:stable
+  - cp build/*.deb ./susi-leveldb-${TRAVIS_BRANCH}-linux-armhf.deb
 
 deploy:
   provider: releases
-  file: "susi-leveldb-${TRAVIS_BRANCH}-linux-amd64.deb"
+  file:
+    - "susi-leveldb-${TRAVIS_BRANCH}-linux-amd64.deb"
+    - "susi-leveldb-${TRAVIS_BRANCH}-linux-armhf.deb"
   skip_cleanup: true
   on:
     tags: true
